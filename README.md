@@ -7,3 +7,7 @@ Run the application as follows, for instance:
 ```shell
 mvn spring-boot:run
 ```
+
+```
+curl "localhost:8080"
+```

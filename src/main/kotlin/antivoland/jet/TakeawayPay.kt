@@ -4,9 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class App
+class TakeawayPay
 
-fun main(args: Array<String>) {
-    runApplication<App>(*args)
-    println("Hello, Kotlin!")
+fun main(vararg args: String) {
+    runApplication<TakeawayPay>(*args)
 }
