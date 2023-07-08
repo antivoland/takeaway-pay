@@ -1,6 +1,6 @@
 package antivoland.jet.repository
 
-import antivoland.jet.domain.Company
+import antivoland.jet.domain.Payment
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface CompanyRepository : JpaRepository<Company, String>
+interface PaymentRepository : JpaRepository<Payment, String>

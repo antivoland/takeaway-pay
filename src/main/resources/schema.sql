@@ -11,17 +11,19 @@ CREATE TABLE restaurant
     FOREIGN KEY (account_id) REFERENCES account (id)
 );
 
-CREATE TABLE company
+CREATE TABLE customer
 (
-    id                    VARCHAR(256) PRIMARY KEY NOT NULL,
-    account_id            VARCHAR(256)             NOT NULL,
-    daily_allowance_limit DOUBLE                   NOT NULL,
+    id              VARCHAR(256) PRIMARY KEY NOT NULL,
+    account_id      VARCHAR(256)             NOT NULL,
+    allowance_limit DOUBLE                   NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account (id)
 );
 
-CREATE TABLE employee
+
+CREATE TABLE payment
 (
-    id         VARCHAR(256) PRIMARY KEY NOT NULL,
-    company_id VARCHAR(256)             NOT NULL,
-    FOREIGN KEY (company_id) REFERENCES company (id)
+    id IDENTITY PRIMARY KEY NOT NULL,
+    customer_id VARCHAR(256) NOT NULL,
+    amount      DOUBLE       NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer (id)
 );
