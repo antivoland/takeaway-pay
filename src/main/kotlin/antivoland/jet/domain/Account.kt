@@ -1,4 +1,4 @@
-package antivoland.jet.repository
+package antivoland.jet.domain
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
