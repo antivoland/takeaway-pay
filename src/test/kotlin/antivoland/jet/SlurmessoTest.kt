@@ -27,7 +27,7 @@ import java.util.concurrent.Executors
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
-    companion object {
+    private companion object {
         val CREW = listOf(
             "fry",
             "leela",
@@ -74,18 +74,18 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         }
     }
 
-    fun restaurantBalance(id: String): Double {
+    private fun restaurantBalance(id: String): Double {
         val response = api.getForEntity("/restaurants/$id/balance", Double::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }
 
-    fun customerBalance(id: String): Double {
+    private fun customerBalance(id: String): Double {
         val response = api.getForEntity("/customers/$id/balance", Double::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }
 
-    fun customerPay(id: String, order: Order): ResponseEntity<Unit> =
+    private fun customerPay(id: String, order: Order): ResponseEntity<Unit> =
         api.postForEntity("/customers/$id/pay", order, Unit::class.java)
 }
