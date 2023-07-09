@@ -1,9 +1,6 @@
 package antivoland.jet.repository
 
-import antivoland.jet.domain.Restaurant
-import antivoland.jet.exception.RestaurantNotFoundException
+import antivoland.jet.repository.entity.Restaurant
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface RestaurantRepository : JpaRepository<Restaurant, String> {
-    fun get(id: String): Restaurant = findById(id).orElseThrow { RestaurantNotFoundException(id) }
-}
+interface RestaurantRepository : JpaRepository<Restaurant, String>

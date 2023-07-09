@@ -1,4 +1,4 @@
-package antivoland.jet
+package antivoland.jet.api
 
 import antivoland.jet.service.RestaurantService
 import org.springframework.web.bind.annotation.*

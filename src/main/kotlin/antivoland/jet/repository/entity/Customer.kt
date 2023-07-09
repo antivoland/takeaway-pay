@@ -1,4 +1,4 @@
-package antivoland.jet.domain
+package antivoland.jet.repository.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -10,7 +10,7 @@ class Customer(
     @Id val id: String,
     @OneToOne val account: Account,
     val allowanceLimit: Double,
-    @OneToMany val payments: List<Payment>
+    @OneToMany(mappedBy = "customer") val payments: List<Payment>
 ) {
     fun balance() = allowanceLimit - payments
         .stream()
