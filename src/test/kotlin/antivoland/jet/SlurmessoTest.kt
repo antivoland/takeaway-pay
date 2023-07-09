@@ -6,6 +6,7 @@ import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
@@ -25,7 +26,7 @@ import java.util.concurrent.Executors
  0.75 cents. Thus, every employee of Planet Express is now very busy cyclically
  collecting ingredients, mixing them and drinking the slurmesso.
  */
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
     private companion object {
         val CREW = listOf(
