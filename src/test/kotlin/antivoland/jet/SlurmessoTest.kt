@@ -30,7 +30,7 @@ import java.util.concurrent.Executors
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
     companion object {
-        val CREW: List<String> = listOf(
+        val CREW = listOf(
             "fry",
             "leela",
             "bender",
