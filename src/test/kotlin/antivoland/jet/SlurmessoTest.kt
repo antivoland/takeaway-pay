@@ -18,13 +18,13 @@ import java.util.concurrent.Executors
  portion of slurm and one portion of espresso. You won't be able to resist
  another slurmesso right after you've had your current one.
 
- Professor Farnsworth ordered Slurm dispensing unit from MomCorp and rented
+ Professor Farnsworth ordered slurm dispensing unit from MomCorp and rented
  a Coffee Maker 3000 from Family Bros. Pizza. Both devices are capable to serve
  all the crew members simultaneously.
 
  The cost of one portion of slurm is 0.25 cents, and one espresso will cost
  0.75 cents. Thus, every employee of Planet Express is now very busy cyclically
- collecting ingredients, mixing them and drinking them.
+ collecting ingredients, mixing them and drinking the slurmesso.
  */
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
