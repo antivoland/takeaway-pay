@@ -1,18 +1,25 @@
 INSERT INTO account (id, balance)
-VALUES ('planet-express', 0),
-       ('momcorp', 0),
-       ('family-bros-pizza', 0);
+VALUES ('momcorp-account', 0),
+       ('family-bros-pizza-account', 0),
+       ('fry-account', 10),
+       ('leela-account', 10),
+       ('bender-account', 10),
+       ('amy-account', 10),
+       ('hermes-account', 10),
+       ('professor-account', 10),
+       ('zoidberg-account', 10),
+       ('scruffy-account', 10);
 
 INSERT INTO restaurant (id, account_id)
-VALUES ('slurm-dispensing-unit', 'momcorp'),
-       ('coffee-maker-3000', 'family-bros-pizza');
+VALUES ('slurm-dispensing-unit', 'momcorp-account'),
+       ('coffee-maker-3000', 'family-bros-pizza-account');
 
-INSERT INTO customer (id, account_id, allowance_limit)
-VALUES ('fry', 'planet-express', 10),
-       ('leela', 'planet-express', 10),
-       ('bender', 'planet-express', 10),
-       ('amy', 'planet-express', 10),
-       ('hermes', 'planet-express', 10),
-       ('professor', 'planet-express', 10),
-       ('zoidberg', 'planet-express', 10),
-       ('scruffy', 'planet-express', 10);
+INSERT INTO customer (id, account_id)
+VALUES ('fry', 'fry-account'),
+       ('leela', 'leela-account'),
+       ('bender', 'bender-account'),
+       ('amy', 'amy-account'),
+       ('hermes', 'hermes-account'),
+       ('professor', 'professor-account'),
+       ('zoidberg', 'zoidberg-account'),
+       ('scruffy', 'scruffy-account');

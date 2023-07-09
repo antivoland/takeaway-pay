@@ -1,11 +1,13 @@
 package antivoland.jet
 
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import org.springframework.retry.annotation.EnableRetry
 
+@EnableRetry
 @SpringBootApplication
 class TakeawayPay
 
 fun main(vararg args: String) {
-    runApplication<TakeawayPay>(*args)
+    SpringApplication.run(TakeawayPay::class.java, *args)
 }

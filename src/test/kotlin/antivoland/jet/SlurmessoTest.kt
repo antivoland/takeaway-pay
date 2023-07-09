@@ -1,7 +1,6 @@
 package antivoland.jet
 
 import antivoland.jet.api.domain.Order
-import antivoland.jet.api.domain.Receipt
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Test
@@ -45,11 +44,9 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         } finally {
             threadPool.shutdown()
         }
-
-        assertThat(restaurantBalance("slurm-dispensing-unit"))
-            .isCloseTo(20.0, offset(0.01))
-        assertThat(restaurantBalance("coffee-maker-3000"))
-            .isCloseTo(60.0, offset(0.01))
+        for (id in CREW) assertThat(customerBalance(id)).isCloseTo(0.0, offset(0.01))
+        assertThat(restaurantBalance("slurm-dispensing-unit")).isCloseTo(20.0, offset(0.01))
+        assertThat(restaurantBalance("coffee-maker-3000")).isCloseTo(60.0, offset(0.01))
     }
 
     private fun drink(start: CountDownLatch, finish: CountDownLatch, id: String): Runnable {
@@ -57,7 +54,7 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
             try {
                 start.await()
                 var orderNo = 0;
-                var response: ResponseEntity<Receipt>
+                var response: ResponseEntity<Unit>
                 do {
                     ++orderNo;
                     response =
@@ -82,6 +79,6 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         return response.body!!
     }
 
-    fun customerPay(id: String, order: Order): ResponseEntity<Receipt> =
-        api.postForEntity("/customers/$id/pay", order, Receipt::class.java)
+    fun customerPay(id: String, order: Order): ResponseEntity<Unit> =
+        api.postForEntity("/customers/$id/pay", order, Unit::class.java)
 }
