@@ -10,8 +10,7 @@ In this task, we need you to design and implement an internal RESTful API to hel
 
 * Keep it very simple and meet today's demands only.
 * You don't need to implement any authentication.
-* We need two main features, which should be implemented by REST endpoints. The
-  application should be able to:
+* We need two main features, which should be implemented by REST endpoints. The application should be able to:
   * Take some money from the customer's Takeaway Pay allowance and put it in the restaurant's account. We don't need extra details like the customer's name, or restaurant's address.
     * The application should validate that the customer has enough funds in their Takeaway Pay allowance to complete the transaction and that the transfer amount does not exceed their daily limit of 10 Euros. You can assume the limit gets topped up by an external source every day, or you can always be creative and implement your own solution.
   * Display the amount in customer and restaurant's accounts
