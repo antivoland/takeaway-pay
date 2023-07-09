@@ -68,9 +68,8 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
                 start.await()
                 var orderNo = 0;
                 var response: ResponseEntity<Unit>
-                do {
-                    response = if (++orderNo % 2 == 0) customerPay(id, SLURM) else customerPay(id, ESPRESSO)
-                } while (response.statusCode == OK)
+                do response = customerPay(id, if (++orderNo % 2 == 0) SLURM else ESPRESSO)
+                while (response.statusCode == OK)
             } finally {
                 finish.countDown()
             }
