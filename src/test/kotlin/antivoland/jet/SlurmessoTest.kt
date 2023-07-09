@@ -13,6 +13,19 @@ import org.springframework.http.ResponseEntity
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
+/*
+ Slurmesso is a delicious and highly addictive drink. You'll need to mix one
+ portion of slurm and one portion of espresso. You won't be able to resist
+ another slurmesso right after you've had your current one.
+
+ Professor Farnsworth ordered Slurm dispensing unit from MomCorp and rented
+ a Coffee Maker 3000 from Family Bros. Pizza. Both devices are capable to serve
+ all the crew members simultaneously.
+
+ The cost of one portion of slurm is 0.25 cents, and one espresso will cost
+ 0.75 cents. Thus, every employee of Planet Express is now very busy cyclically
+ collecting ingredients, mixing them and drinking them.
+ */
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
@@ -27,8 +40,8 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
             "zoidberg",
             "scruffy"
         )
-        val SLURM_PRICE: Double = .25
-        val ESPRESSO_PRICE: Double = .75
+        val SLURM = Order("slurm-dispensing-unit", .25)
+        val ESPRESSO = Order("coffee-maker-3000", .75)
     }
 
     @Test
@@ -56,10 +69,7 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
                 var orderNo = 0;
                 var response: ResponseEntity<Unit>
                 do {
-                    ++orderNo;
-                    response =
-                        if (orderNo % 2 == 0) customerPay(id, Order("slurm-dispensing-unit", SLURM_PRICE))
-                        else customerPay(id, Order("coffee-maker-3000", ESPRESSO_PRICE))
+                    response = if (++orderNo % 2 == 0) customerPay(id, SLURM) else customerPay(id, ESPRESSO)
                 } while (response.statusCode == OK)
             } finally {
                 finish.countDown()
