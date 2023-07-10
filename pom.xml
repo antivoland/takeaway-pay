@@ -27,6 +27,7 @@
         <kotlin.version>1.8.22</kotlin.version>
 
         <spring-boot.version>3.1.1</spring-boot.version>
+        <springmockk.version>4.0.2</springmockk.version>
 
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -71,6 +72,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.ninja-squad</groupId>
+            <artifactId>springmockk</artifactId>
+            <version>${springmockk.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

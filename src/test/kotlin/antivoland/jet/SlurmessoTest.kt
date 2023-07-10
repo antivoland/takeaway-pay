@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import java.util.concurrent.CountDownLatch
@@ -24,11 +25,11 @@ import java.util.concurrent.Executors
 
  The cost of one portion of slurm is 0.25 cents, and one espresso will cost
  0.75 cents. Thus, every employee of Planet Express is now very busy cyclically
- collecting ingredients, mixing them and drinking the slurmesso.
+ collecting ingredients, mixing them and enjoying th resulting slurmesso.
  */
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
-    private companion object {
+    companion object {
         val CREW = listOf(
             "fry",
             "leela",
@@ -61,32 +62,32 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         assertThat(restaurantBalance("coffee-maker-3000")).isCloseTo(60.0, offset(0.01))
     }
 
-    private fun drink(start: CountDownLatch, finish: CountDownLatch, id: String): Runnable {
+    fun drink(start: CountDownLatch, finish: CountDownLatch, id: String): Runnable {
         return Runnable {
             try {
                 start.await()
                 var orderNo = 0;
                 var response: ResponseEntity<Unit>
                 do response = customerPay(id, if (++orderNo % 2 == 0) SLURM else ESPRESSO)
-                while (response.statusCode == OK)
+                while (response.statusCode == CREATED)
             } finally {
                 finish.countDown()
             }
         }
     }
 
-    private fun restaurantBalance(id: String): Double {
+    fun restaurantBalance(id: String): Double {
         val response = api.getForEntity("/restaurants/$id/balance", Double::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }
 
-    private fun customerBalance(id: String): Double {
+    fun customerBalance(id: String): Double {
         val response = api.getForEntity("/customers/$id/balance", Double::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }
 
-    private fun customerPay(id: String, order: Order): ResponseEntity<Unit> =
+    fun customerPay(id: String, order: Order): ResponseEntity<Unit> =
         api.postForEntity("/customers/$id/pay", order, Unit::class.java)
 }
