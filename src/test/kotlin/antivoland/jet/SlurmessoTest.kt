@@ -25,7 +25,7 @@ import java.util.concurrent.Executors
 
  The cost of one portion of slurm is 0.25 cents, and one espresso will cost
  0.75 cents. Thus, every employee of Planet Express is now very busy cyclically
- collecting ingredients, mixing them and enjoying th resulting slurmesso.
+ collecting ingredients, mixing them and enjoying the resulting slurmesso.
  */
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class SlurmessoTest(@Autowired val api: TestRestTemplate) {
