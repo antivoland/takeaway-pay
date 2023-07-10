@@ -79,7 +79,7 @@ class CustomerAPITest(@Autowired val api: MockMvc) {
             .content(order())
             .contentType(APPLICATION_JSON)
         api.perform(request)
-            .andExpect(status().isBadRequest)
+            .andExpect(status().isIAmATeapot)
             .andExpect(content().string("Customer 'william-jones' has insufficient funds"))
     }
 

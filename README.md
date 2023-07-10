@@ -17,7 +17,7 @@ curl -i -X POST localhost:8080/customers/fry/pay \
   -H "Content-Type: application/json" \
   -d '{"restaurant_id": "slurm-dispensing-unit", "amount": 0.25}'
 
-HTTP/1.1 200 
+HTTP/1.1 201 
 Content-Length: 0
 Date: Sun, 09 Jul 2023 16:27:06 GMT
 ```
@@ -47,3 +47,5 @@ Date: Sun, 09 Jul 2023 16:30:26 GMT
 
 0.25
 ```
+
+Swagger docs are available at http://localhost:8080/api.
