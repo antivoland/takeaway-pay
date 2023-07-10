@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.math.BigDecimal
 
 @WebMvcTest(CustomerAPI::class)
 class CustomerAPITest(@Autowired val api: MockMvc) {
@@ -23,7 +24,7 @@ class CustomerAPITest(@Autowired val api: MockMvc) {
 
     @Test
     fun testBalance() {
-        every { service.balance(any()) } returns 1675.1749
+        every { service.balance(any()) } returns BigDecimal("1675.1749")
         val request = get("/customers/william-jones/balance")
         api.perform(request)
             .andExpect(status().isOk)

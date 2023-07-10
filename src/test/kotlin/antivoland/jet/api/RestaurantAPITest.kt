@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import java.math.BigDecimal
 
 @WebMvcTest(RestaurantAPI::class)
 class RestaurantAPITest(@Autowired val api: MockMvc) {
@@ -18,7 +19,7 @@ class RestaurantAPITest(@Autowired val api: MockMvc) {
 
     @Test
     fun testBalance() {
-        every { service.balance(any()) } returns 3.1415
+        every { service.balance(any()) } returns BigDecimal("3.1415")
         api.perform(get("/restaurants/pi/balance"))
             .andExpect(status().isOk)
             .andExpect(content().string("3.1415"))

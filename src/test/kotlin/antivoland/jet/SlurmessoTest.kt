@@ -2,7 +2,6 @@ package antivoland.jet
 
 import antivoland.jet.api.domain.Order
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.data.Offset.offset
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,6 +10,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
+import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 
@@ -40,8 +40,8 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
             "zoidberg",
             "scruffy"
         )
-        val SLURM = Order("slurm-dispensing-unit", .25)
-        val ESPRESSO = Order("coffee-maker-3000", .75)
+        val SLURM = Order("slurm-dispensing-unit", BigDecimal("0.25"))
+        val ESPRESSO = Order("coffee-maker-3000", BigDecimal("0.75"))
     }
 
     @Test
@@ -57,9 +57,9 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         } finally {
             threadPool.shutdown()
         }
-        for (id in CREW) assertThat(customerBalance(id)).isCloseTo(0.0, offset(0.01))
-        assertThat(restaurantBalance("slurm-dispensing-unit")).isCloseTo(20.0, offset(0.01))
-        assertThat(restaurantBalance("coffee-maker-3000")).isCloseTo(60.0, offset(0.01))
+        for (id in CREW) assertThat(customerBalance(id)).isEqualByComparingTo(BigDecimal("0"))
+        assertThat(restaurantBalance("slurm-dispensing-unit")).isEqualByComparingTo(BigDecimal("20"))
+        assertThat(restaurantBalance("coffee-maker-3000")).isEqualByComparingTo(BigDecimal("60"))
     }
 
     fun drink(start: CountDownLatch, finish: CountDownLatch, id: String): Runnable {
@@ -76,14 +76,14 @@ class SlurmessoTest(@Autowired val api: TestRestTemplate) {
         }
     }
 
-    fun restaurantBalance(id: String): Double {
-        val response = api.getForEntity("/restaurants/$id/balance", Double::class.java)
+    fun restaurantBalance(id: String): BigDecimal {
+        val response = api.getForEntity("/restaurants/$id/balance", BigDecimal::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }
 
-    fun customerBalance(id: String): Double {
-        val response = api.getForEntity("/customers/$id/balance", Double::class.java)
+    fun customerBalance(id: String): BigDecimal {
+        val response = api.getForEntity("/customers/$id/balance", BigDecimal::class.java)
         assertThat(response.statusCode).isEqualTo(OK)
         return response.body!!
     }

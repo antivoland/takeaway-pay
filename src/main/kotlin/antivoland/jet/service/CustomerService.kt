@@ -12,6 +12,7 @@ import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 
 @Service
 class CustomerService(
@@ -19,7 +20,7 @@ class CustomerService(
     val restaurantRepository: RestaurantRepository,
     val accountRepository: AccountRepository
 ) {
-    fun balance(id: String): Double = customerRepository
+    fun balance(id: String): BigDecimal = customerRepository
         .findById(id)
         .orElseThrow { CustomerNotFoundException(id) }
         .account
@@ -34,8 +35,7 @@ class CustomerService(
         val restaurant = restaurantRepository
             .findById(order.restaurantId)
             .orElseThrow { RestaurantNotFoundException(order.restaurantId) }
-        if (customer.account.balance.compareTo(order.amount) < 0)
-            throw CustomerHasInsufficientFundsException(id)
+        if (customer.account.balance < order.amount) throw CustomerHasInsufficientFundsException(id)
         accountRepository.save(customer.account.add(-order.amount))
         accountRepository.save(restaurant.account.add(order.amount))
     }
