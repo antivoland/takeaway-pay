@@ -30,8 +30,9 @@ class CustomerServiceTest(
     @Test
     fun testBalance() {
         val customerAccount = Account("customer-account", BigDecimal("1.2"), 3)
-        entityManager.persistAndFlush(customerAccount)
-        entityManager.persistAndFlush(Customer("customer", customerAccount))
+        entityManager.persist(customerAccount)
+        entityManager.persist(Customer("customer", customerAccount))
+        entityManager.flush()
 
         assertThat(service.balance("customer")).isEqualByComparingTo(BigDecimal("1.2"))
     }
@@ -47,24 +48,36 @@ class CustomerServiceTest(
     fun testPay() {
         val customerAccount = Account("customer-account", BigDecimal("1.2"), 3)
         val restaurantAccount = Account("restaurant-account", BigDecimal("4.5"), 6)
-        entityManager.persistAndFlush(customerAccount)
-        entityManager.persistAndFlush(restaurantAccount)
-        entityManager.persistAndFlush(Restaurant("restaurant", restaurantAccount))
-        entityManager.persistAndFlush(Customer("customer", customerAccount))
+        entityManager.persist(customerAccount)
+        entityManager.persist(restaurantAccount)
+        entityManager.persist(Restaurant("restaurant", restaurantAccount))
+        entityManager.persist(Customer("customer", customerAccount))
+        entityManager.flush()
 
         service.pay("customer", Order("restaurant", BigDecimal("1.1")))
+        entityManager.flush()
 
-        assertThat(accountRepository.findById("customer-account").orElseThrow())
-            .isEqualTo(Account("customer-account", BigDecimal("0.1"), 4))
-        assertThat(accountRepository.findById("restaurant-account").orElseThrow())
-            .isEqualTo(Account("restaurant-account", BigDecimal("5.6"), 7))
+        val updatedCustomerAccount = accountRepository
+            .findById("customer-account")
+            .orElseThrow()
+        assertThat(updatedCustomerAccount.id).isEqualTo("customer-account")
+        assertThat(updatedCustomerAccount.balance).isEqualByComparingTo(BigDecimal("0.1"))
+        assertThat(updatedCustomerAccount.version).isEqualTo(4)
+
+        val updatedRestaurantAccount = accountRepository
+            .findById("restaurant-account")
+            .orElseThrow()
+        assertThat(updatedRestaurantAccount.id).isEqualTo("restaurant-account")
+        assertThat(updatedRestaurantAccount.balance).isEqualByComparingTo(BigDecimal("5.6"))
+        assertThat(updatedRestaurantAccount.version).isEqualTo(7)
     }
 
     @Test
     fun testPayWhenCustomerNotFound() {
         val restaurantAccount = Account("restaurant-account", BigDecimal("4.5"), 6)
-        entityManager.persistAndFlush(restaurantAccount)
-        entityManager.persistAndFlush(Restaurant("restaurant", restaurantAccount))
+        entityManager.persist(restaurantAccount)
+        entityManager.persist(Restaurant("restaurant", restaurantAccount))
+        entityManager.flush()
 
         assertThatThrownBy { service.pay("customer", Order("restaurant", BigDecimal("1.1"))) }
             .isInstanceOf(CustomerNotFoundException::class.java)
@@ -74,8 +87,9 @@ class CustomerServiceTest(
     @Test
     fun testPayWhenRestaurantNotFound() {
         val customerAccount = Account("customer-account", BigDecimal("1.2"), 3)
-        entityManager.persistAndFlush(customerAccount)
-        entityManager.persistAndFlush(Customer("customer", customerAccount))
+        entityManager.persist(customerAccount)
+        entityManager.persist(Customer("customer", customerAccount))
+        entityManager.flush()
 
         assertThatThrownBy { service.pay("customer", Order("restaurant", BigDecimal("1.1"))) }
             .isInstanceOf(RestaurantNotFoundException::class.java)
@@ -86,10 +100,11 @@ class CustomerServiceTest(
     fun testPayWhenCustomerHasInsufficientFunds() {
         val customerAccount = Account("customer-account", BigDecimal("1.2"), 3)
         val restaurantAccount = Account("restaurant-account", BigDecimal("4.5"), 6)
-        entityManager.persistAndFlush(customerAccount)
-        entityManager.persistAndFlush(restaurantAccount)
-        entityManager.persistAndFlush(Restaurant("restaurant", restaurantAccount))
-        entityManager.persistAndFlush(Customer("customer", customerAccount))
+        entityManager.persist(customerAccount)
+        entityManager.persist(restaurantAccount)
+        entityManager.persist(Restaurant("restaurant", restaurantAccount))
+        entityManager.persist(Customer("customer", customerAccount))
+        entityManager.flush()
 
         assertThatThrownBy { service.pay("customer", Order("restaurant", BigDecimal("1.21"))) }
             .isInstanceOf(CustomerHasInsufficientFundsException::class.java)

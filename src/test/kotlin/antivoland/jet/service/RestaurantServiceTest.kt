@@ -19,13 +19,11 @@ class RestaurantServiceTest(
 
     @Test
     fun testBalance() {
-        entityManager.persistAndFlush(account())
-        entityManager.persistAndFlush(restaurant())
-        assertThat(service.balance("restaurant"))
-            .isEqualByComparingTo(BigDecimal("1.2"))
+        val restaurantAccount = Account("restaurant-account", BigDecimal("4.5"), 6)
+        entityManager.persist(restaurantAccount)
+        entityManager.persist(Restaurant("restaurant", restaurantAccount))
+        entityManager.flush()
+
+        assertThat(service.balance("restaurant")).isEqualByComparingTo(BigDecimal("4.5"))
     }
-
-    fun restaurant() = Restaurant("restaurant", account())
-
-    fun account() = Account("account", BigDecimal("1.2"), 3)
 }
