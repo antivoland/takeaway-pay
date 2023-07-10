@@ -21,15 +21,15 @@ class CustomerAPI(val customerService: CustomerService) {
     @PostMapping("{id}/pay")
     fun pay(@PathVariable id: String, @RequestBody order: Order) = customerService.pay(id, order)
 
-    @ExceptionHandler(CustomerNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CustomerNotFoundException::class)
     fun customerNotFound(e: CustomerNotFoundException): String = e.message!!
 
-    @ExceptionHandler(RestaurantNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(RestaurantNotFoundException::class)
     fun restaurantNotFound(e: RestaurantNotFoundException): String = e.message!!
 
-    @ExceptionHandler(CustomerHasInsufficientFundsException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CustomerHasInsufficientFundsException::class)
     fun customerHasInsufficientFunds(e: CustomerHasInsufficientFundsException): String = e.message!!
 }

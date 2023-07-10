@@ -13,7 +13,7 @@ class RestaurantAPI(val restaurantService: RestaurantService) {
     @GetMapping("{id}/balance")
     fun balance(@PathVariable id: String) = restaurantService.balance(id)
 
-    @ExceptionHandler(RestaurantNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(RestaurantNotFoundException::class)
     fun restaurantNotFound(e: RestaurantNotFoundException): String = e.message!!
 }
